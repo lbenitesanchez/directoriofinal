@@ -3,32 +3,7 @@ import { Search, Mail, GraduationCap, BookOpen, X, Users, TrendingUp, Award, Che
 // import * as THREE from 'three';
 
 // Función para generar avatar con iniciales
-const getAvatarUrl = (nombre) => {
-  // Limpiar el nombre y extraer las partes
-  const nombreLimpio = nombre.replace(/,\s*/, ' ');
-  const partes = nombreLimpio.split(' ').filter(p => p.length > 0);
-  
-  // Tomar las iniciales (primeras dos letras significativas)
-  let iniciales = '';
-  if (partes.length >= 2) {
-    // Primera letra del primer apellido y primera letra del nombre
-    iniciales = partes[0].charAt(0) + partes[partes.length - 1].charAt(0);
-  } else if (partes.length === 1) {
-    // Si solo hay una parte, tomar las dos primeras letras
-    iniciales = partes[0].substring(0, 2);
-  }
-  
-  // Generar un color basado en el nombre para consistencia
-  const colors = ['7c3aed', '3b82f6', '10b981', 'f59e0b', 'ef4444', '8b5cf6', '6366f1', '06b6d4', 'ec4899', '14b8a6'];
-  let hash = 0;
-  for (let i = 0; i < nombre.length; i++) {
-    hash = nombre.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  const colorIndex = Math.abs(hash) % colors.length;
-  const bgColor = colors[colorIndex];
-  
-  return `https://ui-avatars.com/api/?name=${encodeURIComponent(iniciales)}&background=${bgColor}&color=fff&size=400&bold=true&font-size=0.4&uppercase=true`;
-};
+
 
 // Datos reales de los 71 profesores con fotos de GitHub
 const profesoresDataRaw = [
@@ -731,17 +706,17 @@ const ThreeBackground = () => {
 
     // Cleanup
     return () => {
-      const currentMount = mountRef.current;
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('resize', handleResize);
-      if (frameRef.current) {
-        cancelAnimationFrame(frameRef.current);
-      }
-      if (currentMount && renderer.domElement) {
-        currentMount.removeChild(renderer.domElement);
-      }
-      renderer.dispose();
-    };
+  const currentMount = mountRef.current; // Guardar referencia
+  window.removeEventListener('mousemove', handleMouseMove);
+  window.removeEventListener('resize', handleResize);
+  if (frameRef.current) {
+    cancelAnimationFrame(frameRef.current);
+  }
+  if (currentMount && renderer.domElement) {
+    currentMount.removeChild(renderer.domElement);
+  }
+  renderer.dispose();
+};
   }, []);
 
   return <div ref={mountRef} className="fixed inset-0 -z-10" />;
